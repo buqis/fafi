@@ -1,14 +1,32 @@
 package local_data
 
 type Account struct {
-	ID       int    `json:"id"`       //用户id
-	Cookie   string `json:"cookie"`   //用户cookie
-	ProxyID  int    `json:"proxy_id"` //代理id
-	UserName string `json:"user_name"`
-	Password string `json:"password"`
+	ID       int    `json:"id"`        //用户id
+	Cookie   string `json:"cookie"`    //用户cookie
+	ProxyID  int    `json:"proxy_id"`  //代理id
+	UserName string `json:"user_name"` //用户名
+	Password string `json:"password"`  //密码
 	UserID   int    `json:"user_id"`
+	Platform uint8  `json:"platform"`
 }
 
+// 账号运行状态
+const (
+	//离线
+	CliStateOffline = 1
+	//状态等待邮件码
+	//CliStateWaitEmailCode = 2
+	//登录状态
+	CliStateLogin = 3
+	//在线状态
+	CliStateOnline = 4
+	//国家等待贸易
+	//CliStateWaitTrade = 5
+	//国营贸易
+	//CliStateTrading = 6
+)
+
+// 账号类型
 const (
 	GoldAccount     = 1
 	CustomerAccount = 2
@@ -22,6 +40,7 @@ type AccountReader interface {
 	GetPassword() string
 	GetUserID() int
 	GetAccountType() byte
+	GetPlatform() uint8
 }
 
 func (f *Account) GetAccountType() byte {
@@ -45,14 +64,18 @@ func (a *Account) GetProxyID() int {
 func (a *Account) GetUserID() int {
 	return a.UserID
 }
+func (a *Account) GetPlatform() uint8 {
+	return a.Platform
+}
 
 type AccountWriter interface {
 	SetID(id int)
 	SetCookie(cookie string)
 	SetProxyID(proxyId int)
-	SetUserName(UserName string)
-	SetPassword(Password string)
-	SetUserID(UserID int) int
+	SetUserName(userName string)
+	SetPassword(password string)
+	SetUserID(userID int)
+	SetPlatform(platform uint8)
 }
 
 func (a *Account) SetUserName(userName string) {
@@ -73,8 +96,11 @@ func (a *Account) SetCookie(cookie string) {
 func (a *Account) SetProxyID(proxyId int) {
 	a.ProxyID = proxyId
 }
+func (a *Account) SetPlatform(platform uint8) {
+	a.Platform = platform
+}
 
-type AccountWriterAndReader struct {
+type AccountWriterAndReader interface {
 	AccountWriter
 	AccountReader
 }
