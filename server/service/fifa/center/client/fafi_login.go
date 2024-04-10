@@ -1,4 +1,4 @@
-package login
+package client
 
 import (
 	"crypto/tls"
@@ -6,16 +6,17 @@ import (
 	"errors"
 	"fmt"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/fifa/web_capture/software_user"
-	"github.com/flipped-aurora/gin-vue-admin/server/service/fifa/center/client"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 var AbortRedirect = errors.New("abort redirect")
 
-func GetUserMessage(c *client.BaseClient) (string, error) {
+// 解析出获取token所需要的信息
+func GetUserMessage(c *BaseClient) (string, error) {
 	hc := http.Client{
 		Transport: &http.Transport{
 			Proxy: func(*http.Request) (*url.URL, error) {
@@ -33,7 +34,7 @@ func GetUserMessage(c *client.BaseClient) (string, error) {
 			return nil
 		},
 		Jar:     c.Jar,
-		Timeout: 0,
+		Timeout: time.Second * 30,
 	}
 	//模拟登录的地址
 	u := "https://ca.account.sony.com/api/authz/v3/oauth/authorize?service_entity=urn:service-entity:psn&response_type=code" +

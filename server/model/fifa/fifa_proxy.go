@@ -6,8 +6,8 @@ import (
 )
 
 type FIFAProxy struct {
-	Id       int    `json:"id"`
-	UserID   int    `json:"user_id"`
+	Id       uint   `json:"id"`
+	UserID   uint   `json:"user_id"`
 	IP       string `json:"ip"`
 	Port     string `json:"port"`
 	UserName string `json:"user_name"`

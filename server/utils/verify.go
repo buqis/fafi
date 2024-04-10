@@ -16,4 +16,6 @@ var (
 	OldAuthorityVerify     = Rules{"OldAuthorityId": {NotEmpty()}}
 	ChangePasswordVerify   = Rules{"Password": {NotEmpty()}, "NewPassword": {NotEmpty()}}
 	SetUserAuthorityVerify = Rules{"AuthorityId": {NotEmpty()}}
+	AccountEventVerify     = Rules{"IDs": []string{NotEmpty()}, "Event": {NotEmpty()}}
+	SetProxyVerify         = Rules{"ProxyID": {NotEmpty()}}
 )
